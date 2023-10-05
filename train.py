@@ -45,6 +45,7 @@ def training():
         for idx, (test_x, test_label) in enumerate(test_loader):
             test_x = test_x.to(device)
             test_label = test_label.to(device)
+            print("test_x.shape : ",test_x.shape)
             predict_y = model(test_x.float()).detach()
             predict_y = torch.argmax(predict_y, dim=-1) # maximum value of the input tensor
             current_correct_num = predict_y == test_label

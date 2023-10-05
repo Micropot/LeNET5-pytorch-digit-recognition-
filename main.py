@@ -5,8 +5,7 @@ from PIL import Image
 def main():
     #train = training()
     img = upload()
-    #img = Image.open(img)
-    print("img : ",img)
+    #print("img : ",img)
     Prediction(str(img))
 
 

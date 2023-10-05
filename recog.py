@@ -31,15 +31,21 @@ def Prediction(img):
         # Padding the digit with 5 pixels of black color (zeros) in each side to finally produce the image of (28, 28)
         padded_digit = np.pad(resized_digit, ((5, 5), (5, 5)), "constant", constant_values=0)
 
-        digit = padded_digit.reshape(1, 28, 28, 1)
+        #digit = padded_digit.reshape(1, 28, 28, 1)
+        digit = padded_digit.reshape(1, 1, 28, 28)
         digit = torch.from_numpy(digit / 255.0)
         a.append(digit)
-        print(type(digit))
-        print([digit][0].shape)
-    print(len(a))
-        #res = model([digit][0].float())
+        #print(type(digit))
+        #print([digit][0].shape)
+        #res = model([digit][0].float()).detacht()
         #print("res : ", res)
-
+    print(len(a))
+    for i in a:
+        print(i.shape)
+        res = model([i][0].float()).detach()
+        print("res : ",res)
+        prediction = res.argmax()
+        print("prediction =", prediction)
     #res = model([digit])[0]
     #print("resut : ", res)
     #prediction = res.argmax()
