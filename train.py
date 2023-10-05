@@ -25,7 +25,7 @@ def training():
     model = Model().to(device)
     sgd = SGD(model.parameters(), lr=1e-1) # stochastic gradient descent
     loss_fn = CrossEntropyLoss()
-    all_epoch = 50
+    all_epoch = 100
     prev_acc = 0
     for current_epoch in range(all_epoch): # epoch by epoch
         model.train() # train model using the class model defined (call forward)

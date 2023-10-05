@@ -2,12 +2,13 @@ import cv2
 import numpy as np
 import torch
 from glob import glob
+import matplotlib.pyplot as plt
 import os
 def Prediction(img):
     path = glob('/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/models/')
     #path = os.path.join(path,)
     #print('Path : ',path)
-    model = torch.load("/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/models/mnist_0.884.pt")
+    model = torch.load("/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/models/mnist_0.979.pt")
     print("Prediction for one image")
 
     image = cv2.imread(img, cv2.IMREAD_COLOR)
@@ -17,6 +18,7 @@ def Prediction(img):
 
     contours = cv2.findContours(th, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0]
     a = []
+    #TODO : récuperer chaque image correspondant au découpage de la BB
     for cnt in contours:
         x, y, w, h = cv2.boundingRect(cnt)
         # make a rectangle box around each curve
@@ -35,30 +37,38 @@ def Prediction(img):
         digit = padded_digit.reshape(1, 1, 28, 28)
         digit = torch.from_numpy(digit / 255.0)
         a.append(digit)
-        #print(type(digit))
-        #print([digit][0].shape)
-        #res = model([digit][0].float()).detacht()
-        #print("res : ", res)
+        print(cnt.shape)
+        res = model([digit][0].float()).detach()
+        print("res : ", res)
+        prediction = torch.argmax(res, dim=-1)
+        print("prediction =", prediction)
+        # prediction = res.argmax().numpy()
+        # print("prediction =", prediction)
+        # data = str(prediction) + ' ' + str(int(max(res) * 100)) + '%'
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        fontScale = 0.5
+        color = (255, 0, 0)
+        thickness = 1
+        cv2.putText(image, str(prediction), (x, y - 5), font, fontScale, color, thickness)
+
     print(len(a))
-    for i in a:
+    '''for i in a:
         print(i.shape)
         res = model([i][0].float()).detach()
         print("res : ",res)
         prediction = torch.argmax(res, dim=-1)
         print("prediction =", prediction)
-    #res = model([digit])[0]
-    #print("resut : ", res)
-    #prediction = res.argmax()
-    #print("prediction =", prediction)
-    #data = str(prediction) + ' ' + str(int(max(res) * 100)) + '%'
-
-    font = cv2.FONT_HERSHEY_SIMPLEX
+        #prediction = res.argmax().numpy()
+        #print("prediction =", prediction)
+        #data = str(prediction) + ' ' + str(int(max(res) * 100)) + '%'
+'''
+    '''font = cv2.FONT_HERSHEY_SIMPLEX
     fontScale = 0.5
     color = (255, 0, 0)
     thickness = 1
-    #cv2.putText(image, data, (x, y - 5), font, fontScale, color, thickness)
-
+    cv2.putText(image, str(prediction), (x, y - 5), font, fontScale, color, thickness)
+'''
     cv2.imshow('image', image)
     cv2.waitKey(0)
     cv2.destroyWindow('image')
-    #return np.argmax(res), max(res)
+    #return np.argmax(res), max(res)'''
