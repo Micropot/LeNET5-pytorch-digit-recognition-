@@ -59,7 +59,7 @@ def training():
         print('Epoch[{}/{}], accuracy: {:.3f}'.format(current_epoch+1, all_epoch, acc), flush=True)
         if not os.path.isdir("models"):
             os.mkdir("models")
-        torch.save(model, 'models/mnist_{:.3f}.pkl'.format(acc))
+        torch.save(model, 'models/mnist_{:.3f}.pt'.format(acc))
         if np.abs(acc - prev_acc) < 1e-4:
             break
         prev_acc = acc
