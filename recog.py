@@ -7,7 +7,7 @@ def Prediction(img):
     path = glob('/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/models/')
     #path = os.path.join(path,)
     #print('Path : ',path)
-    model = torch.load("/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/models/mnist_0.891.pt")
+    model = torch.load("/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/models/mnist_0.884.pt")
     print("Prediction for one image")
 
     image = cv2.imread(img, cv2.IMREAD_COLOR)
@@ -44,7 +44,7 @@ def Prediction(img):
         print(i.shape)
         res = model([i][0].float()).detach()
         print("res : ",res)
-        prediction = res.argmax()
+        prediction = torch.argmax(res, dim=-1)
         print("prediction =", prediction)
     #res = model([digit])[0]
     #print("resut : ", res)
