@@ -3,6 +3,7 @@ from recog import Prediction
 from upload import upload
 from PIL import Image
 def main():
+
     #train = training()
     img = upload()
     #print("img : ",img)
