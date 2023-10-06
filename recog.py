@@ -8,7 +8,7 @@ def Prediction(img):
     path = glob('/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/models/')
     #path = os.path.join(path,)
     #print('Path : ',path)
-    model = torch.load("/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/models/mnist_0.979.pt")
+    model = torch.load("/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/models/mnist_0.044.pt")
     print("Prediction for one image")
 
     image = cv2.imread(img, cv2.IMREAD_COLOR)
@@ -31,10 +31,10 @@ def Prediction(img):
         resized_digit = cv2.resize(digit, (18, 18))
 
         # Padding the digit with 5 pixels of black color (zeros) in each side to finally produce the image of (28, 28)
-        padded_digit = np.pad(resized_digit, ((5, 5), (5, 5)), "constant", constant_values=0)
+        padded_digit = np.pad(resized_digit, ((7, 7), (7, 7)), "constant", constant_values=0)
 
         #digit = padded_digit.reshape(1, 28, 28, 1)
-        digit = padded_digit.reshape(1, 1, 28, 28)
+        digit = padded_digit.reshape(1, 1, 32, 32)
         digit = torch.from_numpy(digit / 255.0)
         a.append(digit)
         print(cnt.shape)
