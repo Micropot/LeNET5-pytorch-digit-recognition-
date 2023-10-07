@@ -25,11 +25,12 @@ test_set = torchvision.datasets.MNIST(
 )
 '''Model = torch.load("/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/models/best_model.pt")
 my_device = device.get_default_device()'''
-def show_img(img, label):
+'''def show_img(img, label):
     print('Label: ', label)
-    plt.imshow(img.permute(1,2,0), cmap = 'gray')
-    plt.show()
-show_img(*test_set[0])
+    #plt.imshow(img.permute(1,2,0), cmap = 'gray')
+    #plt.savefig("/Users/arthurlamard/Desktop/test.png")
+    #plt.show()
+show_img(*test_set[0])'''
 def predict_image(img, model):
     my_device = device.get_default_device()
     xb = device.to_device(img.unsqueeze(0), my_device)

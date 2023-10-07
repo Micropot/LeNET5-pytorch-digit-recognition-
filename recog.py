@@ -29,14 +29,16 @@ def Prediction(img):
 
         # Cropping out the digit from the image corresponding to the current contours in the for loop
         digit = th[y:y + h, x:x + w]
-
-
+        if not os.path.isdir("images_raw"):
+            os.mkdir("images_raw")
+        cv2.imwrite("/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/images_raw/image_" + str(i) + ".png",
+                    digit)
 
         # Resizing that digit to (18, 18)
-        resized_digit = cv2.resize(digit, (18, 18))
+        resized_digit = cv2.resize(digit, (28, 28))
 
         # Padding the digit with 5 pixels of black color (zeros) in each side to finally produce the image of (28, 28)
-        padded_digit = np.pad(resized_digit, ((7, 7), (7, 7)), "constant", constant_values=0)
+        padded_digit = np.pad(resized_digit, ((2, 2), (2, 2)), "constant", constant_values=0)
         print("padded_digit.size() : ",padded_digit.size)
 
 
