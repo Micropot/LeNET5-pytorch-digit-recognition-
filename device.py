@@ -3,11 +3,11 @@ import torch
 
 def get_default_device():
     """Pick GPU if available, else CPU"""
-    '''if torch.backends.mps.is_available():
+    if torch.backends.mps.is_available():
         return torch.device('mps')
     else:
-        return torch.device('cpu')'''
-    torch.device('cpu')
+        return torch.device('cpu')
+    #torch.device('cpu')
 
 
 def to_device(data, device):

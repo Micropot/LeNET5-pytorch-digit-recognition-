@@ -4,7 +4,7 @@ from upload import upload
 
 def main():
 
-    #train = training()
+    train = training()
     img = upload()
     #print("img : ",img)
     Prediction(str(img))

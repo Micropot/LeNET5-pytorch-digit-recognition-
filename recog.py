@@ -1,10 +1,11 @@
+import os
+
 import cv2
 import numpy as np
 import torch
 from glob import glob
-import matplotlib.pyplot as plt
-import os
-from PIL import Image
+import device
+import infernance
 def Prediction(img):
     path = glob('/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/models/')
     #path = os.path.join(path,)
@@ -37,23 +38,27 @@ def Prediction(img):
         # Padding the digit with 5 pixels of black color (zeros) in each side to finally produce the image of (28, 28)
         padded_digit = np.pad(resized_digit, ((7, 7), (7, 7)), "constant", constant_values=0)
         print("padded_digit.size() : ",padded_digit.size)
-        cv2.imwrite("/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/image_" + str(i) + ".png", padded_digit)
 
-        i += 1
 
         #digit = padded_digit.reshape(1, 28, 28, 1)
-        digit = padded_digit.reshape(1, 1, 32, 32)
+        digit = padded_digit.reshape(1,  32, 32)
         print("digit.size() : ", digit.size)
 
         digit = torch.from_numpy(digit / 255.0)
         a.append(digit)
-        print(cnt.shape)
-        res = model([digit][0].float()).detach()
-        print("res : ", res)
-        prediction = torch.argmax(res, dim=-1)
+        if not os.path.isdir("images"):
+            os.mkdir("images")
+        cv2.imwrite("/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/images/image_" + str(i) + ".png", padded_digit)
+
+        i += 1
+        #print('len digit : ', len(digit))
+        #print("digit : ", digit)
+        #res = model([digit][0].float()).detach()
+
+        #prediction = torch.argmax(res, dim=-1)
+        prediction = infernance.predict_image([digit][0].float(), model)
+        #prediction = prediction.argmax().numpy()
         print("prediction =", prediction)
-        # prediction = res.argmax().numpy()
-        # print("prediction =", prediction)
         # data = str(prediction) + ' ' + str(int(max(res) * 100)) + '%'
         font = cv2.FONT_HERSHEY_SIMPLEX
         fontScale = 0.5
@@ -61,7 +66,7 @@ def Prediction(img):
         thickness = 1
         cv2.putText(image, str(prediction), (x, y - 5), font, fontScale, color, thickness)
 
-    print(len(a))
+    #print(len(a))
     '''for i in a:
         print(i.shape)
         res = model([i][0].float()).detach()

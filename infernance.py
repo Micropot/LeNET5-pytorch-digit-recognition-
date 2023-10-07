@@ -23,18 +23,23 @@ test_set = torchvision.datasets.MNIST(
     download=False,
     transform=trans
 )
-Model = torch.load("/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/models/best_model.pt")
-my_device = device.get_default_device()
+'''Model = torch.load("/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/models/best_model.pt")
+my_device = device.get_default_device()'''
+def show_img(img, label):
+    print('Label: ', label)
+    plt.imshow(img.permute(1,2,0), cmap = 'gray')
+    plt.show()
+show_img(*test_set[0])
 def predict_image(img, model):
+    my_device = device.get_default_device()
     xb = device.to_device(img.unsqueeze(0), my_device)
     yb = model(xb)
     _, preds  = torch.max(yb, dim=1)
     return preds[0].item()
 
-img, label = test_set[0]
-plt.imshow(img[0], cmap='gray')
-print('Label:', label, ', Predicted:', predict_image(img, Model))
 
+my_device = device.get_default_device()
+Model = torch.load("/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/models/best_model.pt")
 test_loader = device.DeviceDataLoader(DataLoader(test_set, batch_size=256), my_device)
 result = metrics.evaluate(Model, F.cross_entropy, test_loader, metric = metrics.accuracy)
 #result
