@@ -15,6 +15,7 @@ import torch.nn.functional as F
 import device
 import metrics
 
+
 def training():
     '''device = 'cpu'
     if torch.backends.mps.is_available():
@@ -25,6 +26,7 @@ def training():
     # dowload the dataset and normalize the input images
     trans = transforms.Compose([
         # To resize image
+        transforms.RandAugment(2,9),
         transforms.Resize((32, 32)),
         transforms.ToTensor(),
         # To normalize image

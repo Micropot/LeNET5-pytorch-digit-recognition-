@@ -56,11 +56,12 @@ def fit(epochs, model, loss_fn, train_dl, val_dl, opt_fn=None, metric=None, sche
         val_metrics.append(val_metric)
         train_metrics.append(train_metric)
         if val_loss < best_val_loss:
+            best_val_loss = val_loss
             if not os.path.isdir("models"):
                 os.mkdir("models")
             print(f"\nBest validation loss: {best_val_loss}")
             print(f"\nSaving best model for epoch: {epoch + 1}\n")
-            torch.save(model, 'models/mnist_{:.3f}.pt'.format(val_loss))
+            torch.save(model, 'models/best_model.pt'.format(val_loss))
 
         if metric is None:
             print('Epoch{}/{}, train_loss: {:.4f}, val_loss: {:.4f}'

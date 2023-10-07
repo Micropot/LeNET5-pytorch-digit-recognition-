@@ -4,11 +4,12 @@ import torch
 from glob import glob
 import matplotlib.pyplot as plt
 import os
+from PIL import Image
 def Prediction(img):
     path = glob('/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/models/')
     #path = os.path.join(path,)
     #print('Path : ',path)
-    model = torch.load("/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/models/mnist_0.044.pt")
+    model = torch.load("/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/models/best_model.pt")
     print("Prediction for one image")
 
     image = cv2.imread(img, cv2.IMREAD_COLOR)
@@ -18,6 +19,7 @@ def Prediction(img):
 
     contours = cv2.findContours(th, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0]
     a = []
+    i = 0
     #TODO : récuperer chaque image correspondant au découpage de la BB
     for cnt in contours:
         x, y, w, h = cv2.boundingRect(cnt)
@@ -27,14 +29,22 @@ def Prediction(img):
         # Cropping out the digit from the image corresponding to the current contours in the for loop
         digit = th[y:y + h, x:x + w]
 
+
+
         # Resizing that digit to (18, 18)
         resized_digit = cv2.resize(digit, (18, 18))
 
         # Padding the digit with 5 pixels of black color (zeros) in each side to finally produce the image of (28, 28)
         padded_digit = np.pad(resized_digit, ((7, 7), (7, 7)), "constant", constant_values=0)
+        print("padded_digit.size() : ",padded_digit.size)
+        cv2.imwrite("/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/image_" + str(i) + ".png", padded_digit)
+
+        i += 1
 
         #digit = padded_digit.reshape(1, 28, 28, 1)
         digit = padded_digit.reshape(1, 1, 32, 32)
+        print("digit.size() : ", digit.size)
+
         digit = torch.from_numpy(digit / 255.0)
         a.append(digit)
         print(cnt.shape)
