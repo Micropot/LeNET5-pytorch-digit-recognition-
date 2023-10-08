@@ -40,12 +40,7 @@ def training():
         transform=trans
     )
 
-    test_set = torchvision.datasets.MNIST(
-        root='./test',
-        train=False,
-        download=False,
-        transform=trans
-    )
+
 
     # this function will generate random indexes between 0 and 59999
     def split_indices(n, val_per, seed=0):
