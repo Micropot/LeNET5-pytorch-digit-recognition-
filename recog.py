@@ -6,6 +6,8 @@ import torch
 from glob import glob
 import device
 import infernance
+
+
 def Prediction(img):
     path = glob('/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/models/')
     #path = os.path.join(path,)
@@ -35,10 +37,10 @@ def Prediction(img):
                     digit)
 
         # Resizing that digit to (18, 18)
-        resized_digit = cv2.resize(digit, (28, 28))
+        resized_digit = cv2.resize(digit, (18, 18), interpolation=cv2.INTER_AREA)
 
         # Padding the digit with 5 pixels of black color (zeros) in each side to finally produce the image of (28, 28)
-        padded_digit = np.pad(resized_digit, ((2, 2), (2, 2)), "constant", constant_values=0)
+        padded_digit = np.pad(resized_digit, ((7, 7), (7, 7)), "constant", constant_values=0)
         print("padded_digit.size() : ",padded_digit.size)
 
 
@@ -68,24 +70,8 @@ def Prediction(img):
         thickness = 1
         cv2.putText(image, str(prediction), (x, y - 5), font, fontScale, color, thickness)
 
-    #print(len(a))
-    '''for i in a:
-        print(i.shape)
-        res = model([i][0].float()).detach()
-        print("res : ",res)
-        prediction = torch.argmax(res, dim=-1)
-        print("prediction =", prediction)
-        #prediction = res.argmax().numpy()
-        #print("prediction =", prediction)
-        #data = str(prediction) + ' ' + str(int(max(res) * 100)) + '%'
-'''
-    '''font = cv2.FONT_HERSHEY_SIMPLEX
-    fontScale = 0.5
-    color = (255, 0, 0)
-    thickness = 1
-    cv2.putText(image, str(prediction), (x, y - 5), font, fontScale, color, thickness)
-'''
+
     cv2.imshow('image', image)
     cv2.waitKey(0)
     cv2.destroyWindow('image')
-    #return np.argmax(res), max(res)'''
+
