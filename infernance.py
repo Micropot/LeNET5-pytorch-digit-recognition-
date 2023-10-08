@@ -50,7 +50,7 @@ def predict_image(img, model):
     return preds[0].item()
 
 
-'''my_device = device.get_default_device()
+my_device = device.get_default_device()
 Model = torch.load("/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/models/best_model.pt")
 test_loader = device.DeviceDataLoader(DataLoader(test_set, batch_size=256), my_device)
 result = metrics.evaluate(Model, F.cross_entropy, test_loader, metric = metrics.accuracy)
@@ -60,7 +60,7 @@ Accuracy = result[2] * 100
 loss = result[0]
 print("Total Losses: {}, Accuracy: {}".format(loss, Accuracy))
 
-img, label = test_set[193]
+'''img, label = test_set[193]
 print(img.size())
 plt.imshow(img[0], cmap='gray')
 print('Label:', label, ', Predicted:', predict_image(img, Model))'''
