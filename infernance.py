@@ -40,6 +40,7 @@ def predict_image(img, model):
 
     save_image(image1, "/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/img_2.png")
     image = Image.open("/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/img_2.png")
+
     inverted_image = PIL.ImageOps.invert(image)
     inverted_image.save("/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/inverted_img_2.png")
     my_device = device.get_default_device()
@@ -60,6 +61,6 @@ loss = result[0]
 print("Total Losses: {}, Accuracy: {}".format(loss, Accuracy))
 
 img, label = test_set[193]
-print(img)
+print(img.size())
 plt.imshow(img[0], cmap='gray')
 print('Label:', label, ', Predicted:', predict_image(img, Model))'''
