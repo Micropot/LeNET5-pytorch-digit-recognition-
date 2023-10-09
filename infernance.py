@@ -3,7 +3,6 @@ import torchvision
 import device
 import torch
 import matplotlib.pyplot as plt
-import model
 import metrics
 from torch.utils.data import DataLoader
 import torch.nn.functional as F
@@ -26,8 +25,7 @@ test_set = torchvision.datasets.MNIST(
     download=False,
     transform=trans
 )
-'''Model = torch.load("/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/models/best_model.pt")
-my_device = device.get_default_device()'''
+
 def show_img(img, label):
     print('Label: ', label)
     plt.imshow(img.permute(1,2,0), cmap = 'gray')
