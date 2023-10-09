@@ -2,6 +2,7 @@ import torch
 import numpy as np
 import os
 
+# functino to return loss for every batch
 def loss_batch(model, loss_func, x, y, opt=None, metric=None):
     pred = model(x)
 
@@ -19,7 +20,7 @@ def loss_batch(model, loss_func, x, y, opt=None, metric=None):
 
     return loss.item(), len(x), metric_result
 
-
+# evalutate the model by calculatung the averages of the loss and metric
 def evaluate(model, loss_fn, val_dl, metric=None):
     with torch.no_grad():
         results = [loss_batch(model, loss_fn, x, y, metric=metric) for x, y in val_dl]
@@ -37,7 +38,7 @@ def evaluate(model, loss_fn, val_dl, metric=None):
 
     return avg_loss, total, avg_metric
 
-
+# the main function to train the model
 def fit(epochs, model, loss_fn, train_dl, val_dl, opt_fn=None, metric=None, scheduler=None, scheduler_on='val_metric'):
     train_losses, val_losses, val_metrics, train_metrics = [], [], [], []
     best_val_loss = 1
@@ -55,6 +56,7 @@ def fit(epochs, model, loss_fn, train_dl, val_dl, opt_fn=None, metric=None, sche
         val_losses.append(val_loss)
         val_metrics.append(val_metric)
         train_metrics.append(train_metric)
+        # save the model with the best val_loss
         if val_loss < best_val_loss:
             best_val_loss = val_loss
             if not os.path.isdir("models"):

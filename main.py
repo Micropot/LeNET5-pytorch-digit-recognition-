@@ -6,7 +6,6 @@ def main():
 
     #train = training()
     img = upload()
-    #print("img : ",img)
     Prediction(str(img))
 
 

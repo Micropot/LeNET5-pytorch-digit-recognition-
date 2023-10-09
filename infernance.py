@@ -10,9 +10,9 @@ from torchvision.utils import save_image
 from PIL import Image
 import PIL.ImageOps
 
+# transformations for the test base
 trans = transforms.Compose([
     # To resize image
-    #transforms.RandAugment(2, 9),
     transforms.Resize((32, 32)),
     transforms.ToTensor(),
     # To normalize image
@@ -32,6 +32,8 @@ def show_img(img, label):
     #plt.savefig("/Users/arthurlamard/Desktop/test.png")
     plt.show()
 #show_img(*test_set[0])
+
+# fucntion to predict the input image using the trained model
 def predict_image(img, model):
     print(type(img))
     image1 = img[0]
@@ -48,7 +50,7 @@ def predict_image(img, model):
     return preds[0].item()
 
 
-my_device = device.get_default_device()
+'''my_device = device.get_default_device()
 Model = torch.load("/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/models/best_model.pt")
 test_loader = device.DeviceDataLoader(DataLoader(test_set, batch_size=256), my_device)
 result = metrics.evaluate(Model, F.cross_entropy, test_loader, metric = metrics.accuracy)
@@ -56,7 +58,7 @@ result = metrics.evaluate(Model, F.cross_entropy, test_loader, metric = metrics.
 Accuracy = result[2] * 100
 #Accuracy
 loss = result[0]
-print("Total Losses: {}, Accuracy: {}".format(loss, Accuracy))
+print("Total Losses: {}, Accuracy: {}".format(loss, Accuracy))'''
 
 '''img, label = test_set[193]
 print(img.size())
