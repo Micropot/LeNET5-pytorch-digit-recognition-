@@ -17,6 +17,11 @@ def Prediction(img):
     gray = cv2.cvtColor(image.copy(), cv2.COLOR_BGR2GRAY)
     _, th = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
 
+    cv2.imshow('image', th)
+    cv2.waitKey(0)
+    cv2.destroyWindow('image')
+
+
     contours = cv2.findContours(th, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0]
     i = 0
     #TODO : récuperer chaque image correspondant au découpage de la BB
