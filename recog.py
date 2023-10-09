@@ -54,6 +54,7 @@ def Prediction(img):
             # To resize image
             # transforms.RandAugment(2, 9),
             padding,
+            transforms.Pad((int(w*0.33),int(h*0.33))),
             transforms.Resize((32, 32)),
             transforms.Grayscale(num_output_channels=1),
             transforms.ToTensor(),
