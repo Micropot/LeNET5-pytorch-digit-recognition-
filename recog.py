@@ -2,7 +2,6 @@ import os
 import cv2
 import numpy as np
 import torch
-from glob import glob
 import infernance
 from PIL import Image
 from matplotlib import cm
@@ -17,9 +16,9 @@ def Prediction(img):
     gray = cv2.cvtColor(image.copy(), cv2.COLOR_BGR2GRAY)
     _, th = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
 
-    cv2.imshow('image', th)
+    '''cv2.imshow('image', th)
     cv2.waitKey(0)
-    cv2.destroyWindow('image')
+    cv2.destroyWindow('image')'''
 
 
     contours = cv2.findContours(th, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0]
@@ -34,12 +33,7 @@ def Prediction(img):
         digit = th[y:y + h, x:x + w]
         im = Image.fromarray(np.uint8(cm.gist_earth(digit) * 255)) # convert array to PIL image
         w,h = im.size
-        print(w)
-        print(h)
         difference = np.abs(w-h)
-        print(int(difference/2))
-        print("difference : ",difference)
-
         if w<h:
             padding = transforms.Pad((int(difference/2), 0))
         elif h<w:
@@ -48,8 +42,6 @@ def Prediction(img):
             padding = transforms.Pad(10)
 
 
-        print('-------------  digit -------------')
-        print(digit)
         if not os.path.isdir("images_raw"):
             os.mkdir("images_raw")
         cv2.imwrite("/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/images_raw/image_" + str(i) + ".png",
@@ -68,6 +60,7 @@ def Prediction(img):
             transforms.Normalize((0.5,), (0.5,))
         ])
 
+        # apply transformation
         digit = trans(im)
         toPil = transforms.ToPILImage()
         new_image = toPil(digit)

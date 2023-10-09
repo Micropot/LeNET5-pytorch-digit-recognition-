@@ -1,12 +1,7 @@
 import torch
 from model import Model
-from torchvision.datasets import mnist
-from torchvision.transforms import ToTensor
 from torch.utils.data import DataLoader
-import os
 import numpy as np
-from torch.nn import CrossEntropyLoss
-from torch.optim import SGD
 import torchvision
 import torchvision.transforms as transforms
 from torch.utils.data.sampler import SubsetRandomSampler
@@ -18,7 +13,7 @@ import metrics
 
 def training():
 
-    # dowload the dataset and normalize the input images
+    # download the dataset and normalize the input images
     trans = transforms.Compose([
         # Apply data aumentation to avoid overfitting
         transforms.RandAugment(2,9),
@@ -43,6 +38,7 @@ def training():
     # this function will generate random indexes between 0 and 59999
     def split_indices(n, val_per, seed=0):
         n_val = int(n * val_per)
+        # keep the same random value each time
         np.random.seed(seed)
         idx = np.random.permutation(n)
         return idx[n_val:], idx[: n_val]
@@ -52,6 +48,7 @@ def training():
     rand_seed = 42
     # split the train dataset
     train_indices, val_indices = split_indices(len(train_set), val_per, rand_seed)
+
 
     # select batch size
     batch_size = 256
@@ -72,7 +69,7 @@ def training():
     train_dl = device.DeviceDataLoader(train_dl, my_device)
     val_dl = device.DeviceDataLoader(val_dl, my_device)
 
-    num_epochs = 25
+    num_epochs = 35
 
     # optimizer to updates weights of the model
     optimizer = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9)
