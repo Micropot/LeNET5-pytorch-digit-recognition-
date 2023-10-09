@@ -15,7 +15,7 @@ def Prediction(img):
     image = cv2.imread(img, cv2.IMREAD_COLOR)
     print("IMAGE : ", type(image))
     gray = cv2.cvtColor(image.copy(), cv2.COLOR_BGR2GRAY)
-    ret, th = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+    _, th = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
 
     contours = cv2.findContours(th, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0]
     i = 0
@@ -28,6 +28,21 @@ def Prediction(img):
         # Cropping out the digit from the image corresponding to the current contours in the for loop
         digit = th[y:y + h, x:x + w]
         im = Image.fromarray(np.uint8(cm.gist_earth(digit) * 255)) # convert array to PIL image
+        w,h = im.size
+        print(w)
+        print(h)
+        difference = np.abs(w-h)
+        print(int(difference/2))
+        print("difference : ",difference)
+
+        if w<h:
+            padding = transforms.Pad((int(difference/2), 0))
+        elif h<w:
+            padding = transforms.Pad((0, int(difference/2)))
+        else:
+            padding = transforms.Pad(10)
+
+
         print('-------------  digit -------------')
         print(digit)
         if not os.path.isdir("images_raw"):
@@ -38,6 +53,7 @@ def Prediction(img):
         trans = transforms.Compose([
             # To resize image
             # transforms.RandAugment(2, 9),
+            padding,
             transforms.Resize((32, 32)),
             transforms.Grayscale(num_output_channels=1),
             transforms.ToTensor(),
@@ -47,6 +63,11 @@ def Prediction(img):
         ])
 
         digit = trans(im)
+        toPil = transforms.ToPILImage()
+        new_image = toPil(digit)
+        if not os.path.isdir("images_resized"):
+            os.mkdir("images_resized")
+        new_image.save("/Users/arthurlamard/Documents/ISEN5/deep_learning/CNN/TP1/images_resized/image_" + str(i) + ".png")
         print(digit.size())
 
         i += 1
